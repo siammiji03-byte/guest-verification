@@ -129,6 +129,184 @@
 
   input::placeholder { color: #555; }
 
+  /* Phone field with country code dropdown */
+  .phone-wrap {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.25s;
+    background: var(--surface);
+  }
+
+  .phone-wrap:focus-within { border-color: var(--text); }
+
+  /* Custom country code picker */
+  .phone-wrap { position: relative; }
+
+  .cc-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #1a1a1a;
+    border: none;
+    border-right: 1px solid var(--border-light);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    padding: 14px 10px 14px 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+    width: 100px;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .cc-trigger .cc-arrow {
+    font-size: 9px;
+    color: #888;
+    margin-left: auto;
+    transition: transform 0.2s;
+  }
+
+  .cc-trigger.open .cc-arrow { transform: rotate(180deg); }
+
+  .cc-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 260px;
+    max-height: 280px;
+    overflow-y: auto;
+    background: #1a1a1a;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  }
+
+  .cc-dropdown.open { display: block; }
+
+  .cc-search {
+    width: 100%;
+    background: #111;
+    border: none;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 10px 12px;
+    outline: none;
+  }
+
+  .cc-search::placeholder { color: #555; }
+
+  .cc-list { list-style: none; }
+
+  .cc-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    font-size: 13px;
+    color: var(--mid);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .cc-list li:hover { background: #252525; color: var(--text); }
+  .cc-list li.selected { background: #222; color: var(--text); }
+
+  .cc-list li .cc-code { color: var(--text); min-width: 44px; font-weight: 500; }
+  .cc-list li .cc-name { font-size: 12px; }
+
+  .cc-dropdown::-webkit-scrollbar { width: 4px; }
+  .cc-dropdown::-webkit-scrollbar-track { background: #1a1a1a; }
+  .cc-dropdown::-webkit-scrollbar-thumb { background: var(--border-light); }
+
+  /* Hidden real input that stores the value */
+  #phone-code { display: none; }
+
+  .phone-wrap input[type="tel"] {
+    border: none;
+    border-radius: 0;
+    flex: 1;
+    width: auto;
+    background: var(--surface);
+  }
+
+  .phone-wrap input[type="tel"]:focus { outline: none; }
+
+
+  /* Guest block */
+  .guest-block {
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 24px;
+    background: var(--surface);
+  }
+
+  .guest-block-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Styled select */
+  .styled-select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  .styled-select:focus { border-color: var(--text); }
+  .styled-select option { background: #1a1a1a; color: var(--text); }
+
+  /* Field row (side by side) */
+  .field-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 0;
+  }
+
+  .field-row .field { flex: 1; }
+
+  /* DOB wrap */
+  .dob-wrap {
+    display: flex;
+    gap: 8px;
+  }
+
+  .dob-wrap .dob-part { flex: 1; }
+
+  @media (max-width: 480px) {
+    .field-row { flex-direction: column; gap: 0; }
+    .dob-wrap { flex-direction: column; gap: 8px; }
+    .dob-wrap .dob-part { width: 100%; }
+  }
+
   /* Upload zones */
   .upload-zone {
     border: 1px dashed var(--border-light);
@@ -342,20 +520,223 @@
     <div class="section-label">01 &mdash; Your details</div>
 
     <div class="field">
-      <label class="field-label" for="name">Full name</label>
-      <input type="text" id="name" placeholder="As it appears on your passport" autocomplete="name">
-      <div class="err" id="err-name">Please enter your full name</div>
-    </div>
-
-    <div class="field">
       <label class="field-label" for="email">Email address</label>
       <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
       <div class="err" id="err-email">Please enter a valid email address</div>
     </div>
 
     <div class="field">
-      <label class="field-label" for="phone">Phone number</label>
-      <input type="tel" id="phone" placeholder="+44 7700 000000" autocomplete="tel">
+      <label class="field-label" for="phone-number">Phone number</label>
+      <div class="phone-wrap">
+        <input type="hidden" id="phone-code" value="+44">
+        <div class="cc-trigger" id="cc-trigger" onclick="toggleCC()">
+          <span id="cc-display">🇬🇧 +44</span>
+          <span class="cc-arrow">▼</span>
+        </div>
+        <div class="cc-dropdown" id="cc-dropdown">
+          <input type="text" class="cc-search" placeholder="Search country..." oninput="filterCC(this.value)" id="cc-search">
+          <ul class="cc-list" id="cc-list">
+      <li data-code="+93" data-name="Afghanistan" class=""><span class="cc-flag">🇦🇫</span><span class="cc-code">+93</span><span class="cc-name">Afghanistan</span></li>
+      <li data-code="+355" data-name="Albania" class=""><span class="cc-flag">🇦🇱</span><span class="cc-code">+355</span><span class="cc-name">Albania</span></li>
+      <li data-code="+213" data-name="Algeria" class=""><span class="cc-flag">🇩🇿</span><span class="cc-code">+213</span><span class="cc-name">Algeria</span></li>
+      <li data-code="+376" data-name="Andorra" class=""><span class="cc-flag">🇦🇩</span><span class="cc-code">+376</span><span class="cc-name">Andorra</span></li>
+      <li data-code="+244" data-name="Angola" class=""><span class="cc-flag">🇦🇴</span><span class="cc-code">+244</span><span class="cc-name">Angola</span></li>
+      <li data-code="+1-268" data-name="Antigua and Barbuda" class=""><span class="cc-flag">🇦🇬</span><span class="cc-code">+1-268</span><span class="cc-name">Antigua and Barbuda</span></li>
+      <li data-code="+54" data-name="Argentina" class=""><span class="cc-flag">🇦🇷</span><span class="cc-code">+54</span><span class="cc-name">Argentina</span></li>
+      <li data-code="+374" data-name="Armenia" class=""><span class="cc-flag">🇦🇲</span><span class="cc-code">+374</span><span class="cc-name">Armenia</span></li>
+      <li data-code="+61" data-name="Australia" class=""><span class="cc-flag">🇦🇺</span><span class="cc-code">+61</span><span class="cc-name">Australia</span></li>
+      <li data-code="+43" data-name="Austria" class=""><span class="cc-flag">🇦🇹</span><span class="cc-code">+43</span><span class="cc-name">Austria</span></li>
+      <li data-code="+994" data-name="Azerbaijan" class=""><span class="cc-flag">🇦🇿</span><span class="cc-code">+994</span><span class="cc-name">Azerbaijan</span></li>
+      <li data-code="+1-242" data-name="Bahamas" class=""><span class="cc-flag">🇧🇸</span><span class="cc-code">+1-242</span><span class="cc-name">Bahamas</span></li>
+      <li data-code="+973" data-name="Bahrain" class=""><span class="cc-flag">🇧🇭</span><span class="cc-code">+973</span><span class="cc-name">Bahrain</span></li>
+      <li data-code="+880" data-name="Bangladesh" class=""><span class="cc-flag">🇧🇩</span><span class="cc-code">+880</span><span class="cc-name">Bangladesh</span></li>
+      <li data-code="+1-246" data-name="Barbados" class=""><span class="cc-flag">🇧🇧</span><span class="cc-code">+1-246</span><span class="cc-name">Barbados</span></li>
+      <li data-code="+375" data-name="Belarus" class=""><span class="cc-flag">🇧🇾</span><span class="cc-code">+375</span><span class="cc-name">Belarus</span></li>
+      <li data-code="+32" data-name="Belgium" class=""><span class="cc-flag">🇧🇪</span><span class="cc-code">+32</span><span class="cc-name">Belgium</span></li>
+      <li data-code="+501" data-name="Belize" class=""><span class="cc-flag">🇧🇿</span><span class="cc-code">+501</span><span class="cc-name">Belize</span></li>
+      <li data-code="+229" data-name="Benin" class=""><span class="cc-flag">🇧🇯</span><span class="cc-code">+229</span><span class="cc-name">Benin</span></li>
+      <li data-code="+975" data-name="Bhutan" class=""><span class="cc-flag">🇧🇹</span><span class="cc-code">+975</span><span class="cc-name">Bhutan</span></li>
+      <li data-code="+591" data-name="Bolivia" class=""><span class="cc-flag">🇧🇴</span><span class="cc-code">+591</span><span class="cc-name">Bolivia</span></li>
+      <li data-code="+387" data-name="Bosnia and Herzegovina" class=""><span class="cc-flag">🇧🇦</span><span class="cc-code">+387</span><span class="cc-name">Bosnia and Herzegovina</span></li>
+      <li data-code="+267" data-name="Botswana" class=""><span class="cc-flag">🇧🇼</span><span class="cc-code">+267</span><span class="cc-name">Botswana</span></li>
+      <li data-code="+55" data-name="Brazil" class=""><span class="cc-flag">🇧🇷</span><span class="cc-code">+55</span><span class="cc-name">Brazil</span></li>
+      <li data-code="+673" data-name="Brunei" class=""><span class="cc-flag">🇧🇳</span><span class="cc-code">+673</span><span class="cc-name">Brunei</span></li>
+      <li data-code="+359" data-name="Bulgaria" class=""><span class="cc-flag">🇧🇬</span><span class="cc-code">+359</span><span class="cc-name">Bulgaria</span></li>
+      <li data-code="+226" data-name="Burkina Faso" class=""><span class="cc-flag">🇧🇫</span><span class="cc-code">+226</span><span class="cc-name">Burkina Faso</span></li>
+      <li data-code="+257" data-name="Burundi" class=""><span class="cc-flag">🇧🇮</span><span class="cc-code">+257</span><span class="cc-name">Burundi</span></li>
+      <li data-code="+855" data-name="Cambodia" class=""><span class="cc-flag">🇰🇭</span><span class="cc-code">+855</span><span class="cc-name">Cambodia</span></li>
+      <li data-code="+237" data-name="Cameroon" class=""><span class="cc-flag">🇨🇲</span><span class="cc-code">+237</span><span class="cc-name">Cameroon</span></li>
+      <li data-code="+1" data-name="Canada" class=""><span class="cc-flag">🇨🇦</span><span class="cc-code">+1</span><span class="cc-name">Canada</span></li>
+      <li data-code="+238" data-name="Cape Verde" class=""><span class="cc-flag">🇨🇻</span><span class="cc-code">+238</span><span class="cc-name">Cape Verde</span></li>
+      <li data-code="+236" data-name="Central African Republic" class=""><span class="cc-flag">🇨🇫</span><span class="cc-code">+236</span><span class="cc-name">Central African Republic</span></li>
+      <li data-code="+235" data-name="Chad" class=""><span class="cc-flag">🇹🇩</span><span class="cc-code">+235</span><span class="cc-name">Chad</span></li>
+      <li data-code="+56" data-name="Chile" class=""><span class="cc-flag">🇨🇱</span><span class="cc-code">+56</span><span class="cc-name">Chile</span></li>
+      <li data-code="+86" data-name="China" class=""><span class="cc-flag">🇨🇳</span><span class="cc-code">+86</span><span class="cc-name">China</span></li>
+      <li data-code="+57" data-name="Colombia" class=""><span class="cc-flag">🇨🇴</span><span class="cc-code">+57</span><span class="cc-name">Colombia</span></li>
+      <li data-code="+269" data-name="Comoros" class=""><span class="cc-flag">🇰🇲</span><span class="cc-code">+269</span><span class="cc-name">Comoros</span></li>
+      <li data-code="+243" data-name="Congo (DRC)" class=""><span class="cc-flag">🇨🇩</span><span class="cc-code">+243</span><span class="cc-name">Congo (DRC)</span></li>
+      <li data-code="+242" data-name="Congo (Republic)" class=""><span class="cc-flag">🇨🇬</span><span class="cc-code">+242</span><span class="cc-name">Congo (Republic)</span></li>
+      <li data-code="+506" data-name="Costa Rica" class=""><span class="cc-flag">🇨🇷</span><span class="cc-code">+506</span><span class="cc-name">Costa Rica</span></li>
+      <li data-code="+385" data-name="Croatia" class=""><span class="cc-flag">🇭🇷</span><span class="cc-code">+385</span><span class="cc-name">Croatia</span></li>
+      <li data-code="+53" data-name="Cuba" class=""><span class="cc-flag">🇨🇺</span><span class="cc-code">+53</span><span class="cc-name">Cuba</span></li>
+      <li data-code="+357" data-name="Cyprus" class=""><span class="cc-flag">🇨🇾</span><span class="cc-code">+357</span><span class="cc-name">Cyprus</span></li>
+      <li data-code="+420" data-name="Czech Republic" class=""><span class="cc-flag">🇨🇿</span><span class="cc-code">+420</span><span class="cc-name">Czech Republic</span></li>
+      <li data-code="+45" data-name="Denmark" class=""><span class="cc-flag">🇩🇰</span><span class="cc-code">+45</span><span class="cc-name">Denmark</span></li>
+      <li data-code="+253" data-name="Djibouti" class=""><span class="cc-flag">🇩🇯</span><span class="cc-code">+253</span><span class="cc-name">Djibouti</span></li>
+      <li data-code="+1-767" data-name="Dominica" class=""><span class="cc-flag">🇩🇲</span><span class="cc-code">+1-767</span><span class="cc-name">Dominica</span></li>
+      <li data-code="+1-809" data-name="Dominican Republic" class=""><span class="cc-flag">🇩🇴</span><span class="cc-code">+1-809</span><span class="cc-name">Dominican Republic</span></li>
+      <li data-code="+593" data-name="Ecuador" class=""><span class="cc-flag">🇪🇨</span><span class="cc-code">+593</span><span class="cc-name">Ecuador</span></li>
+      <li data-code="+20" data-name="Egypt" class=""><span class="cc-flag">🇪🇬</span><span class="cc-code">+20</span><span class="cc-name">Egypt</span></li>
+      <li data-code="+503" data-name="El Salvador" class=""><span class="cc-flag">🇸🇻</span><span class="cc-code">+503</span><span class="cc-name">El Salvador</span></li>
+      <li data-code="+240" data-name="Equatorial Guinea" class=""><span class="cc-flag">🇬🇶</span><span class="cc-code">+240</span><span class="cc-name">Equatorial Guinea</span></li>
+      <li data-code="+291" data-name="Eritrea" class=""><span class="cc-flag">🇪🇷</span><span class="cc-code">+291</span><span class="cc-name">Eritrea</span></li>
+      <li data-code="+372" data-name="Estonia" class=""><span class="cc-flag">🇪🇪</span><span class="cc-code">+372</span><span class="cc-name">Estonia</span></li>
+      <li data-code="+268" data-name="Eswatini" class=""><span class="cc-flag">🇸🇿</span><span class="cc-code">+268</span><span class="cc-name">Eswatini</span></li>
+      <li data-code="+251" data-name="Ethiopia" class=""><span class="cc-flag">🇪🇹</span><span class="cc-code">+251</span><span class="cc-name">Ethiopia</span></li>
+      <li data-code="+679" data-name="Fiji" class=""><span class="cc-flag">🇫🇯</span><span class="cc-code">+679</span><span class="cc-name">Fiji</span></li>
+      <li data-code="+358" data-name="Finland" class=""><span class="cc-flag">🇫🇮</span><span class="cc-code">+358</span><span class="cc-name">Finland</span></li>
+      <li data-code="+33" data-name="France" class=""><span class="cc-flag">🇫🇷</span><span class="cc-code">+33</span><span class="cc-name">France</span></li>
+      <li data-code="+241" data-name="Gabon" class=""><span class="cc-flag">🇬🇦</span><span class="cc-code">+241</span><span class="cc-name">Gabon</span></li>
+      <li data-code="+220" data-name="Gambia" class=""><span class="cc-flag">🇬🇲</span><span class="cc-code">+220</span><span class="cc-name">Gambia</span></li>
+      <li data-code="+995" data-name="Georgia" class=""><span class="cc-flag">🇬🇪</span><span class="cc-code">+995</span><span class="cc-name">Georgia</span></li>
+      <li data-code="+49" data-name="Germany" class=""><span class="cc-flag">🇩🇪</span><span class="cc-code">+49</span><span class="cc-name">Germany</span></li>
+      <li data-code="+233" data-name="Ghana" class=""><span class="cc-flag">🇬🇭</span><span class="cc-code">+233</span><span class="cc-name">Ghana</span></li>
+      <li data-code="+30" data-name="Greece" class=""><span class="cc-flag">🇬🇷</span><span class="cc-code">+30</span><span class="cc-name">Greece</span></li>
+      <li data-code="+1-473" data-name="Grenada" class=""><span class="cc-flag">🇬🇩</span><span class="cc-code">+1-473</span><span class="cc-name">Grenada</span></li>
+      <li data-code="+502" data-name="Guatemala" class=""><span class="cc-flag">🇬🇹</span><span class="cc-code">+502</span><span class="cc-name">Guatemala</span></li>
+      <li data-code="+224" data-name="Guinea" class=""><span class="cc-flag">🇬🇳</span><span class="cc-code">+224</span><span class="cc-name">Guinea</span></li>
+      <li data-code="+245" data-name="Guinea-Bissau" class=""><span class="cc-flag">🇬🇼</span><span class="cc-code">+245</span><span class="cc-name">Guinea-Bissau</span></li>
+      <li data-code="+592" data-name="Guyana" class=""><span class="cc-flag">🇬🇾</span><span class="cc-code">+592</span><span class="cc-name">Guyana</span></li>
+      <li data-code="+509" data-name="Haiti" class=""><span class="cc-flag">🇭🇹</span><span class="cc-code">+509</span><span class="cc-name">Haiti</span></li>
+      <li data-code="+504" data-name="Honduras" class=""><span class="cc-flag">🇭🇳</span><span class="cc-code">+504</span><span class="cc-name">Honduras</span></li>
+      <li data-code="+36" data-name="Hungary" class=""><span class="cc-flag">🇭🇺</span><span class="cc-code">+36</span><span class="cc-name">Hungary</span></li>
+      <li data-code="+354" data-name="Iceland" class=""><span class="cc-flag">🇮🇸</span><span class="cc-code">+354</span><span class="cc-name">Iceland</span></li>
+      <li data-code="+91" data-name="India" class=""><span class="cc-flag">🇮🇳</span><span class="cc-code">+91</span><span class="cc-name">India</span></li>
+      <li data-code="+62" data-name="Indonesia" class=""><span class="cc-flag">🇮🇩</span><span class="cc-code">+62</span><span class="cc-name">Indonesia</span></li>
+      <li data-code="+98" data-name="Iran" class=""><span class="cc-flag">🇮🇷</span><span class="cc-code">+98</span><span class="cc-name">Iran</span></li>
+      <li data-code="+964" data-name="Iraq" class=""><span class="cc-flag">🇮🇶</span><span class="cc-code">+964</span><span class="cc-name">Iraq</span></li>
+      <li data-code="+353" data-name="Ireland" class=""><span class="cc-flag">🇮🇪</span><span class="cc-code">+353</span><span class="cc-name">Ireland</span></li>
+      <li data-code="+972" data-name="Israel" class=""><span class="cc-flag">🇮🇱</span><span class="cc-code">+972</span><span class="cc-name">Israel</span></li>
+      <li data-code="+39" data-name="Italy" class=""><span class="cc-flag">🇮🇹</span><span class="cc-code">+39</span><span class="cc-name">Italy</span></li>
+      <li data-code="+225" data-name="Ivory Coast" class=""><span class="cc-flag">🇨🇮</span><span class="cc-code">+225</span><span class="cc-name">Ivory Coast</span></li>
+      <li data-code="+1-876" data-name="Jamaica" class=""><span class="cc-flag">🇯🇲</span><span class="cc-code">+1-876</span><span class="cc-name">Jamaica</span></li>
+      <li data-code="+81" data-name="Japan" class=""><span class="cc-flag">🇯🇵</span><span class="cc-code">+81</span><span class="cc-name">Japan</span></li>
+      <li data-code="+962" data-name="Jordan" class=""><span class="cc-flag">🇯🇴</span><span class="cc-code">+962</span><span class="cc-name">Jordan</span></li>
+      <li data-code="+7" data-name="Kazakhstan" class=""><span class="cc-flag">🇰🇿</span><span class="cc-code">+7</span><span class="cc-name">Kazakhstan</span></li>
+      <li data-code="+254" data-name="Kenya" class=""><span class="cc-flag">🇰🇪</span><span class="cc-code">+254</span><span class="cc-name">Kenya</span></li>
+      <li data-code="+686" data-name="Kiribati" class=""><span class="cc-flag">🇰🇮</span><span class="cc-code">+686</span><span class="cc-name">Kiribati</span></li>
+      <li data-code="+383" data-name="Kosovo" class=""><span class="cc-flag">🇽🇰</span><span class="cc-code">+383</span><span class="cc-name">Kosovo</span></li>
+      <li data-code="+965" data-name="Kuwait" class=""><span class="cc-flag">🇰🇼</span><span class="cc-code">+965</span><span class="cc-name">Kuwait</span></li>
+      <li data-code="+996" data-name="Kyrgyzstan" class=""><span class="cc-flag">🇰🇬</span><span class="cc-code">+996</span><span class="cc-name">Kyrgyzstan</span></li>
+      <li data-code="+856" data-name="Laos" class=""><span class="cc-flag">🇱🇦</span><span class="cc-code">+856</span><span class="cc-name">Laos</span></li>
+      <li data-code="+371" data-name="Latvia" class=""><span class="cc-flag">🇱🇻</span><span class="cc-code">+371</span><span class="cc-name">Latvia</span></li>
+      <li data-code="+961" data-name="Lebanon" class=""><span class="cc-flag">🇱🇧</span><span class="cc-code">+961</span><span class="cc-name">Lebanon</span></li>
+      <li data-code="+266" data-name="Lesotho" class=""><span class="cc-flag">🇱🇸</span><span class="cc-code">+266</span><span class="cc-name">Lesotho</span></li>
+      <li data-code="+231" data-name="Liberia" class=""><span class="cc-flag">🇱🇷</span><span class="cc-code">+231</span><span class="cc-name">Liberia</span></li>
+      <li data-code="+218" data-name="Libya" class=""><span class="cc-flag">🇱🇾</span><span class="cc-code">+218</span><span class="cc-name">Libya</span></li>
+      <li data-code="+423" data-name="Liechtenstein" class=""><span class="cc-flag">🇱🇮</span><span class="cc-code">+423</span><span class="cc-name">Liechtenstein</span></li>
+      <li data-code="+370" data-name="Lithuania" class=""><span class="cc-flag">🇱🇹</span><span class="cc-code">+370</span><span class="cc-name">Lithuania</span></li>
+      <li data-code="+352" data-name="Luxembourg" class=""><span class="cc-flag">🇱🇺</span><span class="cc-code">+352</span><span class="cc-name">Luxembourg</span></li>
+      <li data-code="+261" data-name="Madagascar" class=""><span class="cc-flag">🇲🇬</span><span class="cc-code">+261</span><span class="cc-name">Madagascar</span></li>
+      <li data-code="+265" data-name="Malawi" class=""><span class="cc-flag">🇲🇼</span><span class="cc-code">+265</span><span class="cc-name">Malawi</span></li>
+      <li data-code="+60" data-name="Malaysia" class=""><span class="cc-flag">🇲🇾</span><span class="cc-code">+60</span><span class="cc-name">Malaysia</span></li>
+      <li data-code="+960" data-name="Maldives" class=""><span class="cc-flag">🇲🇻</span><span class="cc-code">+960</span><span class="cc-name">Maldives</span></li>
+      <li data-code="+223" data-name="Mali" class=""><span class="cc-flag">🇲🇱</span><span class="cc-code">+223</span><span class="cc-name">Mali</span></li>
+      <li data-code="+356" data-name="Malta" class=""><span class="cc-flag">🇲🇹</span><span class="cc-code">+356</span><span class="cc-name">Malta</span></li>
+      <li data-code="+692" data-name="Marshall Islands" class=""><span class="cc-flag">🇲🇭</span><span class="cc-code">+692</span><span class="cc-name">Marshall Islands</span></li>
+      <li data-code="+222" data-name="Mauritania" class=""><span class="cc-flag">🇲🇷</span><span class="cc-code">+222</span><span class="cc-name">Mauritania</span></li>
+      <li data-code="+230" data-name="Mauritius" class=""><span class="cc-flag">🇲🇺</span><span class="cc-code">+230</span><span class="cc-name">Mauritius</span></li>
+      <li data-code="+52" data-name="Mexico" class=""><span class="cc-flag">🇲🇽</span><span class="cc-code">+52</span><span class="cc-name">Mexico</span></li>
+      <li data-code="+691" data-name="Micronesia" class=""><span class="cc-flag">🇫🇲</span><span class="cc-code">+691</span><span class="cc-name">Micronesia</span></li>
+      <li data-code="+373" data-name="Moldova" class=""><span class="cc-flag">🇲🇩</span><span class="cc-code">+373</span><span class="cc-name">Moldova</span></li>
+      <li data-code="+377" data-name="Monaco" class=""><span class="cc-flag">🇲🇨</span><span class="cc-code">+377</span><span class="cc-name">Monaco</span></li>
+      <li data-code="+976" data-name="Mongolia" class=""><span class="cc-flag">🇲🇳</span><span class="cc-code">+976</span><span class="cc-name">Mongolia</span></li>
+      <li data-code="+382" data-name="Montenegro" class=""><span class="cc-flag">🇲🇪</span><span class="cc-code">+382</span><span class="cc-name">Montenegro</span></li>
+      <li data-code="+212" data-name="Morocco" class=""><span class="cc-flag">🇲🇦</span><span class="cc-code">+212</span><span class="cc-name">Morocco</span></li>
+      <li data-code="+258" data-name="Mozambique" class=""><span class="cc-flag">🇲🇿</span><span class="cc-code">+258</span><span class="cc-name">Mozambique</span></li>
+      <li data-code="+95" data-name="Myanmar" class=""><span class="cc-flag">🇲🇲</span><span class="cc-code">+95</span><span class="cc-name">Myanmar</span></li>
+      <li data-code="+264" data-name="Namibia" class=""><span class="cc-flag">🇳🇦</span><span class="cc-code">+264</span><span class="cc-name">Namibia</span></li>
+      <li data-code="+674" data-name="Nauru" class=""><span class="cc-flag">🇳🇷</span><span class="cc-code">+674</span><span class="cc-name">Nauru</span></li>
+      <li data-code="+977" data-name="Nepal" class=""><span class="cc-flag">🇳🇵</span><span class="cc-code">+977</span><span class="cc-name">Nepal</span></li>
+      <li data-code="+31" data-name="Netherlands" class=""><span class="cc-flag">🇳🇱</span><span class="cc-code">+31</span><span class="cc-name">Netherlands</span></li>
+      <li data-code="+64" data-name="New Zealand" class=""><span class="cc-flag">🇳🇿</span><span class="cc-code">+64</span><span class="cc-name">New Zealand</span></li>
+      <li data-code="+505" data-name="Nicaragua" class=""><span class="cc-flag">🇳🇮</span><span class="cc-code">+505</span><span class="cc-name">Nicaragua</span></li>
+      <li data-code="+227" data-name="Niger" class=""><span class="cc-flag">🇳🇪</span><span class="cc-code">+227</span><span class="cc-name">Niger</span></li>
+      <li data-code="+234" data-name="Nigeria" class=""><span class="cc-flag">🇳🇬</span><span class="cc-code">+234</span><span class="cc-name">Nigeria</span></li>
+      <li data-code="+850" data-name="North Korea" class=""><span class="cc-flag">🇰🇵</span><span class="cc-code">+850</span><span class="cc-name">North Korea</span></li>
+      <li data-code="+389" data-name="North Macedonia" class=""><span class="cc-flag">🇲🇰</span><span class="cc-code">+389</span><span class="cc-name">North Macedonia</span></li>
+      <li data-code="+47" data-name="Norway" class=""><span class="cc-flag">🇳🇴</span><span class="cc-code">+47</span><span class="cc-name">Norway</span></li>
+      <li data-code="+968" data-name="Oman" class=""><span class="cc-flag">🇴🇲</span><span class="cc-code">+968</span><span class="cc-name">Oman</span></li>
+      <li data-code="+92" data-name="Pakistan" class=""><span class="cc-flag">🇵🇰</span><span class="cc-code">+92</span><span class="cc-name">Pakistan</span></li>
+      <li data-code="+680" data-name="Palau" class=""><span class="cc-flag">🇵🇼</span><span class="cc-code">+680</span><span class="cc-name">Palau</span></li>
+      <li data-code="+970" data-name="Palestine" class=""><span class="cc-flag">🇵🇸</span><span class="cc-code">+970</span><span class="cc-name">Palestine</span></li>
+      <li data-code="+507" data-name="Panama" class=""><span class="cc-flag">🇵🇦</span><span class="cc-code">+507</span><span class="cc-name">Panama</span></li>
+      <li data-code="+675" data-name="Papua New Guinea" class=""><span class="cc-flag">🇵🇬</span><span class="cc-code">+675</span><span class="cc-name">Papua New Guinea</span></li>
+      <li data-code="+595" data-name="Paraguay" class=""><span class="cc-flag">🇵🇾</span><span class="cc-code">+595</span><span class="cc-name">Paraguay</span></li>
+      <li data-code="+51" data-name="Peru" class=""><span class="cc-flag">🇵🇪</span><span class="cc-code">+51</span><span class="cc-name">Peru</span></li>
+      <li data-code="+63" data-name="Philippines" class=""><span class="cc-flag">🇵🇭</span><span class="cc-code">+63</span><span class="cc-name">Philippines</span></li>
+      <li data-code="+48" data-name="Poland" class=""><span class="cc-flag">🇵🇱</span><span class="cc-code">+48</span><span class="cc-name">Poland</span></li>
+      <li data-code="+351" data-name="Portugal" class=""><span class="cc-flag">🇵🇹</span><span class="cc-code">+351</span><span class="cc-name">Portugal</span></li>
+      <li data-code="+974" data-name="Qatar" class=""><span class="cc-flag">🇶🇦</span><span class="cc-code">+974</span><span class="cc-name">Qatar</span></li>
+      <li data-code="+40" data-name="Romania" class=""><span class="cc-flag">🇷🇴</span><span class="cc-code">+40</span><span class="cc-name">Romania</span></li>
+      <li data-code="+7" data-name="Russia" class=""><span class="cc-flag">🇷🇺</span><span class="cc-code">+7</span><span class="cc-name">Russia</span></li>
+      <li data-code="+250" data-name="Rwanda" class=""><span class="cc-flag">🇷🇼</span><span class="cc-code">+250</span><span class="cc-name">Rwanda</span></li>
+      <li data-code="+1-869" data-name="Saint Kitts and Nevis" class=""><span class="cc-flag">🇰🇳</span><span class="cc-code">+1-869</span><span class="cc-name">Saint Kitts and Nevis</span></li>
+      <li data-code="+1-758" data-name="Saint Lucia" class=""><span class="cc-flag">🇱🇨</span><span class="cc-code">+1-758</span><span class="cc-name">Saint Lucia</span></li>
+      <li data-code="+1-784" data-name="Saint Vincent and the Grenadines" class=""><span class="cc-flag">🇻🇨</span><span class="cc-code">+1-784</span><span class="cc-name">Saint Vincent and the Grenadines</span></li>
+      <li data-code="+685" data-name="Samoa" class=""><span class="cc-flag">🇼🇸</span><span class="cc-code">+685</span><span class="cc-name">Samoa</span></li>
+      <li data-code="+378" data-name="San Marino" class=""><span class="cc-flag">🇸🇲</span><span class="cc-code">+378</span><span class="cc-name">San Marino</span></li>
+      <li data-code="+239" data-name="Sao Tome and Principe" class=""><span class="cc-flag">🇸🇹</span><span class="cc-code">+239</span><span class="cc-name">Sao Tome and Principe</span></li>
+      <li data-code="+966" data-name="Saudi Arabia" class=""><span class="cc-flag">🇸🇦</span><span class="cc-code">+966</span><span class="cc-name">Saudi Arabia</span></li>
+      <li data-code="+221" data-name="Senegal" class=""><span class="cc-flag">🇸🇳</span><span class="cc-code">+221</span><span class="cc-name">Senegal</span></li>
+      <li data-code="+381" data-name="Serbia" class=""><span class="cc-flag">🇷🇸</span><span class="cc-code">+381</span><span class="cc-name">Serbia</span></li>
+      <li data-code="+248" data-name="Seychelles" class=""><span class="cc-flag">🇸🇨</span><span class="cc-code">+248</span><span class="cc-name">Seychelles</span></li>
+      <li data-code="+232" data-name="Sierra Leone" class=""><span class="cc-flag">🇸🇱</span><span class="cc-code">+232</span><span class="cc-name">Sierra Leone</span></li>
+      <li data-code="+65" data-name="Singapore" class=""><span class="cc-flag">🇸🇬</span><span class="cc-code">+65</span><span class="cc-name">Singapore</span></li>
+      <li data-code="+421" data-name="Slovakia" class=""><span class="cc-flag">🇸🇰</span><span class="cc-code">+421</span><span class="cc-name">Slovakia</span></li>
+      <li data-code="+386" data-name="Slovenia" class=""><span class="cc-flag">🇸🇮</span><span class="cc-code">+386</span><span class="cc-name">Slovenia</span></li>
+      <li data-code="+677" data-name="Solomon Islands" class=""><span class="cc-flag">🇸🇧</span><span class="cc-code">+677</span><span class="cc-name">Solomon Islands</span></li>
+      <li data-code="+252" data-name="Somalia" class=""><span class="cc-flag">🇸🇴</span><span class="cc-code">+252</span><span class="cc-name">Somalia</span></li>
+      <li data-code="+27" data-name="South Africa" class=""><span class="cc-flag">🇿🇦</span><span class="cc-code">+27</span><span class="cc-name">South Africa</span></li>
+      <li data-code="+82" data-name="South Korea" class=""><span class="cc-flag">🇰🇷</span><span class="cc-code">+82</span><span class="cc-name">South Korea</span></li>
+      <li data-code="+211" data-name="South Sudan" class=""><span class="cc-flag">🇸🇸</span><span class="cc-code">+211</span><span class="cc-name">South Sudan</span></li>
+      <li data-code="+34" data-name="Spain" class=""><span class="cc-flag">🇪🇸</span><span class="cc-code">+34</span><span class="cc-name">Spain</span></li>
+      <li data-code="+94" data-name="Sri Lanka" class=""><span class="cc-flag">🇱🇰</span><span class="cc-code">+94</span><span class="cc-name">Sri Lanka</span></li>
+      <li data-code="+249" data-name="Sudan" class=""><span class="cc-flag">🇸🇩</span><span class="cc-code">+249</span><span class="cc-name">Sudan</span></li>
+      <li data-code="+597" data-name="Suriname" class=""><span class="cc-flag">🇸🇷</span><span class="cc-code">+597</span><span class="cc-name">Suriname</span></li>
+      <li data-code="+46" data-name="Sweden" class=""><span class="cc-flag">🇸🇪</span><span class="cc-code">+46</span><span class="cc-name">Sweden</span></li>
+      <li data-code="+41" data-name="Switzerland" class=""><span class="cc-flag">🇨🇭</span><span class="cc-code">+41</span><span class="cc-name">Switzerland</span></li>
+      <li data-code="+963" data-name="Syria" class=""><span class="cc-flag">🇸🇾</span><span class="cc-code">+963</span><span class="cc-name">Syria</span></li>
+      <li data-code="+886" data-name="Taiwan" class=""><span class="cc-flag">🇹🇼</span><span class="cc-code">+886</span><span class="cc-name">Taiwan</span></li>
+      <li data-code="+992" data-name="Tajikistan" class=""><span class="cc-flag">🇹🇯</span><span class="cc-code">+992</span><span class="cc-name">Tajikistan</span></li>
+      <li data-code="+255" data-name="Tanzania" class=""><span class="cc-flag">🇹🇿</span><span class="cc-code">+255</span><span class="cc-name">Tanzania</span></li>
+      <li data-code="+66" data-name="Thailand" class=""><span class="cc-flag">🇹🇭</span><span class="cc-code">+66</span><span class="cc-name">Thailand</span></li>
+      <li data-code="+670" data-name="Timor-Leste" class=""><span class="cc-flag">🇹🇱</span><span class="cc-code">+670</span><span class="cc-name">Timor-Leste</span></li>
+      <li data-code="+228" data-name="Togo" class=""><span class="cc-flag">🇹🇬</span><span class="cc-code">+228</span><span class="cc-name">Togo</span></li>
+      <li data-code="+676" data-name="Tonga" class=""><span class="cc-flag">🇹🇴</span><span class="cc-code">+676</span><span class="cc-name">Tonga</span></li>
+      <li data-code="+1-868" data-name="Trinidad and Tobago" class=""><span class="cc-flag">🇹🇹</span><span class="cc-code">+1-868</span><span class="cc-name">Trinidad and Tobago</span></li>
+      <li data-code="+216" data-name="Tunisia" class=""><span class="cc-flag">🇹🇳</span><span class="cc-code">+216</span><span class="cc-name">Tunisia</span></li>
+      <li data-code="+90" data-name="Turkey" class=""><span class="cc-flag">🇹🇷</span><span class="cc-code">+90</span><span class="cc-name">Turkey</span></li>
+      <li data-code="+993" data-name="Turkmenistan" class=""><span class="cc-flag">🇹🇲</span><span class="cc-code">+993</span><span class="cc-name">Turkmenistan</span></li>
+      <li data-code="+688" data-name="Tuvalu" class=""><span class="cc-flag">🇹🇻</span><span class="cc-code">+688</span><span class="cc-name">Tuvalu</span></li>
+      <li data-code="+256" data-name="Uganda" class=""><span class="cc-flag">🇺🇬</span><span class="cc-code">+256</span><span class="cc-name">Uganda</span></li>
+      <li data-code="+380" data-name="Ukraine" class=""><span class="cc-flag">🇺🇦</span><span class="cc-code">+380</span><span class="cc-name">Ukraine</span></li>
+      <li data-code="+971" data-name="United Arab Emirates" class=""><span class="cc-flag">🇦🇪</span><span class="cc-code">+971</span><span class="cc-name">United Arab Emirates</span></li>
+      <li data-code="+44" data-name="United Kingdom" class="selected"><span class="cc-flag">🇬🇧</span><span class="cc-code">+44</span><span class="cc-name">United Kingdom</span></li>
+      <li data-code="+1" data-name="United States" class=""><span class="cc-flag">🇺🇸</span><span class="cc-code">+1</span><span class="cc-name">United States</span></li>
+      <li data-code="+598" data-name="Uruguay" class=""><span class="cc-flag">🇺🇾</span><span class="cc-code">+598</span><span class="cc-name">Uruguay</span></li>
+      <li data-code="+998" data-name="Uzbekistan" class=""><span class="cc-flag">🇺🇿</span><span class="cc-code">+998</span><span class="cc-name">Uzbekistan</span></li>
+      <li data-code="+678" data-name="Vanuatu" class=""><span class="cc-flag">🇻🇺</span><span class="cc-code">+678</span><span class="cc-name">Vanuatu</span></li>
+      <li data-code="+39" data-name="Vatican City" class=""><span class="cc-flag">🇻🇦</span><span class="cc-code">+39</span><span class="cc-name">Vatican City</span></li>
+      <li data-code="+58" data-name="Venezuela" class=""><span class="cc-flag">🇻🇪</span><span class="cc-code">+58</span><span class="cc-name">Venezuela</span></li>
+      <li data-code="+84" data-name="Vietnam" class=""><span class="cc-flag">🇻🇳</span><span class="cc-code">+84</span><span class="cc-name">Vietnam</span></li>
+      <li data-code="+967" data-name="Yemen" class=""><span class="cc-flag">🇾🇪</span><span class="cc-code">+967</span><span class="cc-name">Yemen</span></li>
+      <li data-code="+260" data-name="Zambia" class=""><span class="cc-flag">🇿🇲</span><span class="cc-code">+260</span><span class="cc-name">Zambia</span></li>
+      <li data-code="+263" data-name="Zimbabwe" class=""><span class="cc-flag">🇿🇼</span><span class="cc-code">+263</span><span class="cc-name">Zimbabwe</span></li>
+          </ul>
+        </div>
+        <input type="tel" id="phone-number" placeholder="7700 000000" autocomplete="tel-national">
+      </div>
       <div class="err" id="err-phone">Please enter your phone number</div>
     </div>
 
@@ -372,30 +753,101 @@
 
   <!-- Step 2 -->
   <div class="section" id="step-1">
-    <div class="section-label">02 &mdash; Identity documents</div>
+    <div class="section-label">02 &mdash; Your identity</div>
 
-    <div class="field">
-      <label class="field-label">Your selfie</label>
-      <div class="upload-zone" id="zone-selfie">
-        <input type="file" id="selfie" accept="image/*" capture="user" onchange="handleFile(this,'zone-selfie','confirm-selfie','selfie')">
-        <span class="upload-icon">&#128247;</span>
-        <div class="upload-label">Take or upload a photo of yourself</div>
-        <div class="upload-sub">Face clearly visible &mdash; good lighting</div>
-        <div class="file-confirmed" id="confirm-selfie">&#10003; Photo received</div>
-      </div>
-      <div class="err" id="err-selfie">Please upload a selfie</div>
-    </div>
+    <div class="guest-block" id="main-guest-block">
+      <div class="guest-block-label">Lead guest</div>
 
-    <div class="field">
-      <label class="field-label">Your passport photo page</label>
-      <div class="upload-zone" id="zone-passport">
-        <input type="file" id="passport" accept="image/*,application/pdf" onchange="handleFile(this,'zone-passport','confirm-passport','passport')">
-        <span class="upload-icon">&#128196;</span>
-        <div class="upload-label">Upload passport photo page</div>
-        <div class="upload-sub">JPG, PNG or PDF &mdash; all details must be visible</div>
-        <div class="file-confirmed" id="confirm-passport">&#10003; Document received</div>
+      <div class="field">
+        <label class="field-label">Nationality</label>
+        <select class="styled-select" id="main-nationality">
+          <option value="">Select nationality</option>
+          <option>Afghan</option><option>Albanian</option><option>Algerian</option><option>Andorran</option><option>Angolan</option><option>Antiguan</option><option>Argentine</option><option>Armenian</option><option>Australian</option><option>Austrian</option><option>Azerbaijani</option><option>Bahamian</option><option>Bahraini</option><option>Bangladeshi</option><option>Barbadian</option><option>Belarusian</option><option>Belgian</option><option>Belizean</option><option>Beninese</option><option>Bhutanese</option><option>Bolivian</option><option>Bosnian</option><option>Botswanan</option><option>Brazilian</option><option>British</option><option>Bruneian</option><option>Bulgarian</option><option>Burkinabe</option><option>Burundian</option><option>Cambodian</option><option>Cameroonian</option><option>Canadian</option><option>Cape Verdean</option><option>Central African</option><option>Chadian</option><option>Chilean</option><option>Chinese</option><option>Colombian</option><option>Comorian</option><option>Congolese</option><option>Costa Rican</option><option>Croatian</option><option>Cuban</option><option>Cypriot</option><option>Czech</option><option>Danish</option><option>Djiboutian</option><option>Dominican</option><option>Ecuadorian</option><option>Egyptian</option><option>Emirati</option><option>Equatorial Guinean</option><option>Eritrean</option><option>Estonian</option><option>Ethiopian</option><option>Fijian</option><option>Finnish</option><option>French</option><option>Gabonese</option><option>Gambian</option><option>Georgian</option><option>German</option><option>Ghanaian</option><option>Greek</option><option>Grenadian</option><option>Guatemalan</option><option>Guinean</option><option>Guinea-Bissauan</option><option>Guyanese</option><option>Haitian</option><option>Honduran</option><option>Hungarian</option><option>Icelander</option><option>Indian</option><option>Indonesian</option><option>Iranian</option><option>Iraqi</option><option>Irish</option><option>Israeli</option><option>Italian</option><option>Ivorian</option><option>Jamaican</option><option>Japanese</option><option>Jordanian</option><option>Kazakhstani</option><option>Kenyan</option><option>I-Kiribati</option><option>Kosovar</option><option>Kuwaiti</option><option>Kyrgyz</option><option>Laotian</option><option>Latvian</option><option>Lebanese</option><option>Basotho</option><option>Liberian</option><option>Libyan</option><option>Liechtensteiner</option><option>Lithuanian</option><option>Luxembourger</option><option>Malagasy</option><option>Malawian</option><option>Malaysian</option><option>Maldivian</option><option>Malian</option><option>Maltese</option><option>Marshallese</option><option>Mauritanian</option><option>Mauritian</option><option>Mexican</option><option>Micronesian</option><option>Moldovan</option><option>Monegasque</option><option>Mongolian</option><option>Montenegrin</option><option>Moroccan</option><option>Mozambican</option><option>Burmese</option><option>Namibian</option><option>Nauruan</option><option>Nepali</option><option>Dutch</option><option>New Zealander</option><option>Nicaraguan</option><option>Nigerien</option><option>Nigerian</option><option>North Korean</option><option>North Macedonian</option><option>Norwegian</option><option>Omani</option><option>Pakistani</option><option>Palauan</option><option>Palestinian</option><option>Panamanian</option><option>Papua New Guinean</option><option>Paraguayan</option><option>Peruvian</option><option>Filipino</option><option>Polish</option><option>Portuguese</option><option>Qatari</option><option>Romanian</option><option>Russian</option><option>Rwandan</option><option>Kittitian</option><option>Saint Lucian</option><option>Vincentian</option><option>Samoan</option><option>Sanmarinese</option><option>Sao Tomean</option><option>Saudi Arabian</option><option>Senegalese</option><option>Serbian</option><option>Seychellois</option><option>Sierra Leonean</option><option>Singaporean</option><option>Slovak</option><option>Slovenian</option><option>Solomon Islander</option><option>Somali</option><option>South African</option><option>South Korean</option><option>South Sudanese</option><option>Spanish</option><option>Sri Lankan</option><option>Sudanese</option><option>Surinamese</option><option>Swedish</option><option>Swiss</option><option>Syrian</option><option>Taiwanese</option><option>Tajik</option><option>Tanzanian</option><option>Thai</option><option>Timorese</option><option>Togolese</option><option>Tongan</option><option>Trinidadian</option><option>Tunisian</option><option>Turkish</option><option>Turkmen</option><option>Tuvaluan</option><option>Ugandan</option><option>Ukrainian</option><option>Uruguayan</option><option>Uzbek</option><option>Vanuatuan</option><option>Venezuelan</option><option>Vietnamese</option><option>Yemeni</option><option>Zambian</option><option>Zimbabwean</option>
+        </select>
+        <div class="err" id="err-main-nationality">Please select your nationality</div>
       </div>
-      <div class="err" id="err-passport">Please upload your passport</div>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label">First name</label>
+          <input type="text" id="main-firstname" placeholder="As on ID" autocomplete="given-name">
+          <div class="err" id="err-main-firstname">Required</div>
+        </div>
+        <div class="field">
+          <label class="field-label">Surname</label>
+          <input type="text" id="main-surname" placeholder="As on ID" autocomplete="family-name">
+          <div class="err" id="err-main-surname">Required</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Date of birth</label>
+        <div class="dob-wrap">
+          <select class="styled-select dob-part" id="main-dob-day">
+            <option value="">Day</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option>
+          </select>
+          <select class="styled-select dob-part" id="main-dob-month">
+            <option value="">Month</option>
+            <option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option>
+          </select>
+          <select class="styled-select dob-part" id="main-dob-year">
+            <option value="">Year</option>
+            <option>2010</option><option>2009</option><option>2008</option><option>2007</option><option>2006</option><option>2005</option><option>2004</option><option>2003</option><option>2002</option><option>2001</option><option>2000</option><option>1999</option><option>1998</option><option>1997</option><option>1996</option><option>1995</option><option>1994</option><option>1993</option><option>1992</option><option>1991</option><option>1990</option><option>1989</option><option>1988</option><option>1987</option><option>1986</option><option>1985</option><option>1984</option><option>1983</option><option>1982</option><option>1981</option><option>1980</option><option>1979</option><option>1978</option><option>1977</option><option>1976</option><option>1975</option><option>1974</option><option>1973</option><option>1972</option><option>1971</option><option>1970</option><option>1969</option><option>1968</option><option>1967</option><option>1966</option><option>1965</option><option>1964</option><option>1963</option><option>1962</option><option>1961</option><option>1960</option><option>1959</option><option>1958</option><option>1957</option><option>1956</option><option>1955</option><option>1954</option><option>1953</option><option>1952</option><option>1951</option><option>1950</option><option>1949</option><option>1948</option><option>1947</option><option>1946</option><option>1945</option><option>1944</option><option>1943</option><option>1942</option><option>1941</option><option>1940</option><option>1939</option><option>1938</option><option>1937</option><option>1936</option><option>1935</option><option>1934</option><option>1933</option><option>1932</option><option>1931</option><option>1930</option><option>1929</option><option>1928</option><option>1927</option><option>1926</option><option>1925</option><option>1924</option><option>1923</option><option>1922</option><option>1921</option><option>1920</option><option>1919</option><option>1918</option><option>1917</option><option>1916</option><option>1915</option><option>1914</option><option>1913</option><option>1912</option><option>1911</option><option>1910</option><option>1909</option><option>1908</option><option>1907</option><option>1906</option><option>1905</option><option>1904</option><option>1903</option><option>1902</option><option>1901</option><option>1900</option>
+          </select>
+        </div>
+        <div class="err" id="err-main-dob">Please enter your date of birth</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Sex</label>
+        <select class="styled-select" id="main-sex">
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+        <div class="err" id="err-main-sex">Please select your sex</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">ID type</label>
+        <select class="styled-select" id="main-idtype">
+          <option value="">Select</option>
+          <option>Passport</option>
+          <option>Identity card</option>
+        </select>
+        <div class="err" id="err-main-idtype">Please select ID type</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">ID number</label>
+        <input type="text" id="main-idnumber" placeholder="As it appears on your document">
+        <div class="err" id="err-main-idnumber">Please enter your ID number</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Your selfie</label>
+        <div class="upload-zone" id="zone-selfie">
+          <input type="file" id="selfie" accept="image/*" capture="user" onchange="handleFile(this,'zone-selfie','confirm-selfie','selfie')">
+          <span class="upload-icon">&#128247;</span>
+          <div class="upload-label">Take or upload a photo of yourself</div>
+          <div class="upload-sub">Face clearly visible &mdash; good lighting</div>
+          <div class="file-confirmed" id="confirm-selfie">&#10003; Photo received</div>
+        </div>
+        <div class="err" id="err-selfie">Please upload a selfie</div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Upload your ID</label>
+        <div class="upload-zone" id="zone-passport">
+          <input type="file" id="passport" accept="image/*,application/pdf" onchange="handleFile(this,'zone-passport','confirm-passport','passport')">
+          <span class="upload-icon">&#128196;</span>
+          <div class="upload-label">Upload ID or passport photo page</div>
+          <div class="upload-sub">JPG, PNG or PDF &mdash; all details must be visible</div>
+          <div class="file-confirmed" id="confirm-passport">&#10003; Document received</div>
+        </div>
+        <div class="err" id="err-passport">Please upload your ID</div>
+      </div>
     </div>
 
     <div id="additional-guests-section"></div>
@@ -413,13 +865,14 @@
     <div class="rules-box">
       <h4>House rules</h4>
       <ul>
-        <li>No smoking anywhere on the property, including balconies and outdoor areas</li>
+        <li>No smoking anywhere on the property</li>
         <li>No parties, events, or gatherings beyond the declared number of guests</li>
         <li>Quiet hours between 10pm and 8am</li>
         <li>No additional guests beyond those listed in the booking</li>
         <li>Pets are not permitted unless agreed in advance in writing</li>
-        <li>Check-in from 3pm, check-out by 11am</li>
-        <li>Report any damage or breakages immediately</li>
+        <li>Check-in from 3pm, check-out by 10am unless otherwise agreed in advance</li>
+        <li>You will receive one set of keys. If the key is lost, a replacement fee of between &euro;80 and &euro;400 will be charged depending on the cost of replacement</li>
+        <li>Any damage to the property during your stay must be reported immediately and the cost of repair or replacement will be charged to the guest</li>
         <li>All doors and windows to be secured when leaving</li>
         <li>The property must be left in a reasonable state on departure</li>
       </ul>
@@ -462,10 +915,68 @@
   const uploadedFiles = { selfie: null, passport: null };
   const additionalGuestFiles = {};
 
+
+  // Country code custom dropdown
+  function toggleCC() {
+    const trigger = document.getElementById('cc-trigger');
+    const dropdown = document.getElementById('cc-dropdown');
+    const search = document.getElementById('cc-search');
+    const isOpen = dropdown.classList.contains('open');
+    if (isOpen) {
+      dropdown.classList.remove('open');
+      trigger.classList.remove('open');
+    } else {
+      dropdown.classList.add('open');
+      trigger.classList.add('open');
+      search.value = '';
+      filterCC('');
+      setTimeout(() => search.focus(), 50);
+    }
+  }
+
+  function filterCC(q) {
+    const items = document.querySelectorAll('#cc-list li');
+    const lower = q.toLowerCase();
+    items.forEach(li => {
+      const name = li.dataset.name.toLowerCase();
+      const code = li.dataset.code.toLowerCase();
+      li.style.display = (name.includes(lower) || code.includes(lower)) ? '' : 'none';
+    });
+  }
+
+  function selectCC(li) {
+    const code = li.dataset.code;
+    const flag = li.querySelector('.cc-flag').textContent;
+    document.getElementById('phone-code').value = code;
+    document.getElementById('cc-display').textContent = flag + ' ' + code;
+    document.querySelectorAll('#cc-list li').forEach(el => el.classList.remove('selected'));
+    li.classList.add('selected');
+    document.getElementById('cc-dropdown').classList.remove('open');
+    document.getElementById('cc-trigger').classList.remove('open');
+  }
+
+  // Close dropdown on outside click
+  document.addEventListener('click', function(e) {
+    const wrap = e.target.closest('.phone-wrap');
+    if (!wrap) {
+      document.getElementById('cc-dropdown').classList.remove('open');
+      document.getElementById('cc-trigger').classList.remove('open');
+    }
+  });
+
+  // Wire up list items after DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('#cc-list li').forEach(li => {
+      li.addEventListener('click', function() { selectCC(this); });
+    });
+  });
+
   // Prevent double-tap zoom on buttons (mobile)
   document.addEventListener('touchend', function(e) {
     if (e.target.classList.contains('btn')) e.preventDefault();
   }, { passive: false });
+
+  const additionalGuestData = {};
 
   function buildAdditionalGuestUploads() {
     const count = parseInt(document.getElementById('guest-count').value) || 1;
@@ -473,32 +984,90 @@
     const section = document.getElementById('additional-guests-section');
     section.innerHTML = '';
     Object.keys(additionalGuestFiles).forEach(k => delete additionalGuestFiles[k]);
+    Object.keys(additionalGuestData).forEach(k => delete additionalGuestData[k]);
     if (extra <= 0) return;
 
-    const heading = document.createElement('div');
-    heading.className = 'section-label';
-    heading.style.marginTop = '32px';
-    heading.textContent = 'Additional guest IDs';
-    section.appendChild(heading);
+    const natOptions = '<option value="">Select nationality</option>' + [
+      'Afghan','Albanian','Algerian','Andorran','Angolan','Antiguan','Argentine','Armenian','Australian','Austrian',
+      'Azerbaijani','Bahamian','Bahraini','Bangladeshi','Barbadian','Belarusian','Belgian','Belizean','Beninese',
+      'Bhutanese','Bolivian','Bosnian','Botswanan','Brazilian','British','Bruneian','Bulgarian','Burkinabe',
+      'Burundian','Cambodian','Cameroonian','Canadian','Cape Verdean','Central African','Chadian','Chilean',
+      'Chinese','Colombian','Comorian','Congolese','Costa Rican','Croatian','Cuban','Cypriot','Czech','Danish',
+      'Djiboutian','Dominican','Ecuadorian','Egyptian','Emirati','Equatorial Guinean','Eritrean','Estonian',
+      'Ethiopian','Fijian','Finnish','French','Gabonese','Gambian','Georgian','German','Ghanaian','Greek',
+      'Grenadian','Guatemalan','Guinean','Guinea-Bissauan','Guyanese','Haitian','Honduran','Hungarian',
+      'Icelander','Indian','Indonesian','Iranian','Iraqi','Irish','Israeli','Italian','Ivorian','Jamaican',
+      'Japanese','Jordanian','Kazakhstani','Kenyan','I-Kiribati','Kosovar','Kuwaiti','Kyrgyz','Laotian',
+      'Latvian','Lebanese','Basotho','Liberian','Libyan','Liechtensteiner','Lithuanian','Luxembourger',
+      'Malagasy','Malawian','Malaysian','Maldivian','Malian','Maltese','Marshallese','Mauritanian','Mauritian',
+      'Mexican','Micronesian','Moldovan','Monegasque','Mongolian','Montenegrin','Moroccan','Mozambican',
+      'Burmese','Namibian','Nauruan','Nepali','Dutch','New Zealander','Nicaraguan','Nigerien','Nigerian',
+      'North Korean','North Macedonian','Norwegian','Omani','Pakistani','Palauan','Palestinian','Panamanian',
+      'Papua New Guinean','Paraguayan','Peruvian','Filipino','Polish','Portuguese','Qatari','Romanian',
+      'Russian','Rwandan','Kittitian','Saint Lucian','Vincentian','Samoan','Sanmarinese','Sao Tomean',
+      'Saudi Arabian','Senegalese','Serbian','Seychellois','Sierra Leonean','Singaporean','Slovak','Slovenian',
+      'Solomon Islander','Somali','South African','South Korean','South Sudanese','Spanish','Sri Lankan',
+      'Sudanese','Surinamese','Swedish','Swiss','Syrian','Taiwanese','Tajik','Tanzanian','Thai','Timorese',
+      'Togolese','Tongan','Trinidadian','Tunisian','Turkish','Turkmen','Tuvaluan','Ugandan','Ukrainian',
+      'Uruguayan','Uzbek','Vanuatuan','Venezuelan','Vietnamese','Yemeni','Zambian','Zimbabwean'
+    ].map(n => '<option>' + n + '</option>').join('');
+
+    const dayOptions = '<option value="">Day</option>' + Array.from({length:31},(_,i)=>'<option>'+(i+1)+'</option>').join('');
+    const monthOptions = '<option value="">Month</option>' + ['January','February','March','April','May','June','July','August','September','October','November','December'].map(m=>'<option>'+m+'</option>').join('');
+    const years = [];
+    for(let y=2010;y>=1900;y--) years.push('<option>'+y+'</option>');
+    const yearOptions = '<option value="">Year</option>' + years.join('');
 
     for (let i = 1; i <= extra; i++) {
+      const n = i + 1;
+      const pfx = 'g' + i;
+      const zoneId = 'zone-gid-' + i;
+      const confirmId = 'confirm-gid-' + i;
       const key = 'guest-id-' + i;
-      const zoneId = 'zone-' + key;
-      const confirmId = 'confirm-' + key;
-      const errId = 'err-' + key;
-      const field = document.createElement('div');
-      field.className = 'field';
-      field.innerHTML =
-        '<label class="field-label">Guest ' + (i+1) + ' &mdash; ID or passport</label>' +
+
+      const block = document.createElement('div');
+      block.className = 'guest-block';
+      block.innerHTML =
+        '<div class="guest-block-label">Guest ' + n + '</div>' +
+
+        '<div class="field">' +
+        '<label class="field-label">Nationality</label>' +
+        '<select class="styled-select" id="' + pfx + '-nationality">' + natOptions + '</select>' +
+        '<div class="err" id="err-' + pfx + '-nationality">Required</div>' +
+        '</div>' +
+
+        '<div class="field-row">' +
+        '<div class="field"><label class="field-label">First name</label>' +
+        '<input type="text" id="' + pfx + '-firstname" placeholder="As on ID">' +
+        '<div class="err" id="err-' + pfx + '-firstname">Required</div></div>' +
+        '<div class="field"><label class="field-label">Surname</label>' +
+        '<input type="text" id="' + pfx + '-surname" placeholder="As on ID">' +
+        '<div class="err" id="err-' + pfx + '-surname">Required</div></div>' +
+        '</div>' +
+
+        '<div class="field"><label class="field-label">Date of birth</label>' +
+        '<div class="dob-wrap">' +
+        '<select class="styled-select dob-part" id="' + pfx + '-dob-day">' + dayOptions + '</select>' +
+        '<select class="styled-select dob-part" id="' + pfx + '-dob-month">' + monthOptions + '</select>' +
+        '<select class="styled-select dob-part" id="' + pfx + '-dob-year">' + yearOptions + '</select>' +
+        '</div>' +
+        '<div class="err" id="err-' + pfx + '-dob">Required</div></div>' +
+
+        '<div class="field"><label class="field-label">Sex</label>' +
+        '<select class="styled-select" id="' + pfx + '-sex"><option value="">Select</option><option>Male</option><option>Female</option></select>' +
+        '<div class="err" id="err-' + pfx + '-sex">Required</div></div>' +
+
+        '<div class="field"><label class="field-label">Upload ID</label>' +
         '<div class="upload-zone" id="' + zoneId + '">' +
         '<input type="file" accept="image/*,application/pdf" onchange="handleAdditionalFile(this,\'' + zoneId + '\',\'' + confirmId + '\',\'' + key + '\')">' +
         '<span class="upload-icon">&#128196;</span>' +
         '<div class="upload-label">Passport or government-issued ID</div>' +
-        '<div class="upload-sub">JPG, PNG or PDF &mdash; all details must be visible</div>' +
+        '<div class="upload-sub">JPG, PNG or PDF</div>' +
         '<div class="file-confirmed" id="' + confirmId + '">&#10003; Document received</div>' +
         '</div>' +
-        '<div class="err" id="' + errId + '">Please upload an ID for guest ' + (i+1) + '</div>';
-      section.appendChild(field);
+        '<div class="err" id="err-' + key + '">Please upload an ID</div></div>';
+
+      section.appendChild(block);
     }
   }
 
@@ -519,27 +1088,56 @@
   function validate(step) {
     let ok = true;
     if (step === 0) {
-      const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
+      const phone = document.getElementById('phone-number').value.trim();
       const count = document.getElementById('guest-count').value.trim();
       const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      toggle('err-name', !name);
       toggle('err-email', !emailOk);
       toggle('err-phone', !phone);
       toggle('err-guest-count', !count || parseInt(count) < 1);
-      ok = !!(name && emailOk && phone && count && parseInt(count) >= 1);
+      ok = !!(emailOk && phone && count && parseInt(count) >= 1);
     }
     if (step === 1) {
-      let allOk = !!(uploadedFiles.selfie && uploadedFiles.passport);
+      // Main guest validation
+      const mNat = document.getElementById('main-nationality').value;
+      const mFirst = document.getElementById('main-firstname').value.trim();
+      const mSurname = document.getElementById('main-surname').value.trim();
+      const mDay = document.getElementById('main-dob-day').value;
+      const mMonth = document.getElementById('main-dob-month').value;
+      const mYear = document.getElementById('main-dob-year').value;
+      const mSex = document.getElementById('main-sex').value;
+      const mIdType = document.getElementById('main-idtype').value;
+      const mIdNum = document.getElementById('main-idnumber').value.trim();
+      toggle('err-main-nationality', !mNat);
+      toggle('err-main-firstname', !mFirst);
+      toggle('err-main-surname', !mSurname);
+      toggle('err-main-dob', !mDay || !mMonth || !mYear);
+      toggle('err-main-sex', !mSex);
+      toggle('err-main-idtype', !mIdType);
+      toggle('err-main-idnumber', !mIdNum);
       toggle('err-selfie', !uploadedFiles.selfie);
       toggle('err-passport', !uploadedFiles.passport);
+      let allOk = !!(mNat && mFirst && mSurname && mDay && mMonth && mYear && mSex && mIdType && mIdNum && uploadedFiles.selfie && uploadedFiles.passport);
+
+      // Additional guests
       const count = parseInt(document.getElementById('guest-count').value) || 1;
       for (let i = 1; i < count; i++) {
+        const pfx = 'g' + i;
+        const nat = document.getElementById(pfx + '-nationality') ? document.getElementById(pfx + '-nationality').value : '';
+        const fn = document.getElementById(pfx + '-firstname') ? document.getElementById(pfx + '-firstname').value.trim() : '';
+        const sn = document.getElementById(pfx + '-surname') ? document.getElementById(pfx + '-surname').value.trim() : '';
+        const day = document.getElementById(pfx + '-dob-day') ? document.getElementById(pfx + '-dob-day').value : '';
+        const mon = document.getElementById(pfx + '-dob-month') ? document.getElementById(pfx + '-dob-month').value : '';
+        const yr = document.getElementById(pfx + '-dob-year') ? document.getElementById(pfx + '-dob-year').value : '';
+        const sx = document.getElementById(pfx + '-sex') ? document.getElementById(pfx + '-sex').value : '';
         const key = 'guest-id-' + i;
-        const missing = !additionalGuestFiles[key];
-        toggle('err-' + key, missing);
-        if (missing) allOk = false;
+        toggle('err-' + pfx + '-nationality', !nat);
+        toggle('err-' + pfx + '-firstname', !fn);
+        toggle('err-' + pfx + '-surname', !sn);
+        toggle('err-' + pfx + '-dob', !day || !mon || !yr);
+        toggle('err-' + pfx + '-sex', !sx);
+        toggle('err-' + key, !additionalGuestFiles[key]);
+        if (!nat || !fn || !sn || !day || !mon || !yr || !sx || !additionalGuestFiles[key]) allOk = false;
       }
       ok = allOk;
     }
@@ -581,9 +1179,18 @@
     const FORMSPREE_ID = 'maqzwoov';
 
     const formData = new FormData();
-    formData.append('name', document.getElementById('name').value);
     formData.append('email', document.getElementById('email').value);
-    formData.append('phone', document.getElementById('phone').value);
+    formData.append('nationality', document.getElementById('main-nationality').value);
+    formData.append('first_name', document.getElementById('main-firstname').value);
+    formData.append('surname', document.getElementById('main-surname').value);
+    const dob = document.getElementById('main-dob-day').value + ' ' + document.getElementById('main-dob-month').value + ' ' + document.getElementById('main-dob-year').value;
+    formData.append('date_of_birth', dob);
+    formData.append('sex', document.getElementById('main-sex').value);
+    formData.append('id_type', document.getElementById('main-idtype').value);
+    formData.append('id_number', document.getElementById('main-idnumber').value);
+    const phoneCode = document.getElementById('phone-code').value;
+    const phoneNumber = document.getElementById('phone-number').value;
+    formData.append('phone', phoneCode + ' ' + phoneNumber);
     formData.append('guests', document.getElementById('guest-count').value);
     if (uploadedFiles.selfie) formData.append('selfie', uploadedFiles.selfie);
     if (uploadedFiles.passport) formData.append('passport', uploadedFiles.passport);
