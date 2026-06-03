@@ -29,6 +29,37 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* Google Translate widget */
+  #google_translate_element {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 1000;
+  }
+
+  .goog-te-gadget {
+    font-family: 'DM Mono', monospace !important;
+    font-size: 11px !important;
+    color: var(--mid) !important;
+  }
+
+  .goog-te-gadget .goog-te-combo {
+    background: #1a1a1a !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 4px !important;
+    padding: 6px 10px !important;
+    font-family: 'DM Mono', monospace !important;
+    font-size: 12px !important;
+    outline: none !important;
+    cursor: pointer;
+    max-width: 160px;
+  }
+
+  .goog-te-banner-frame { display: none !important; }
+  body { top: 0 !important; }
+  .skiptranslate { display: none !important; }
+
   .page-wrap {
     max-width: 600px;
     margin: 0 auto;
@@ -135,15 +166,15 @@
     gap: 0;
     border: 1px solid var(--border-light);
     border-radius: 4px;
-    overflow: hidden;
+    overflow: visible;
     transition: border-color 0.25s;
     background: var(--surface);
+    position: relative;
   }
 
   .phone-wrap:focus-within { border-color: var(--text); }
 
   /* Custom country code picker */
-  .phone-wrap { position: relative; }
 
   .cc-trigger {
     display: flex;
@@ -152,6 +183,7 @@
     background: #1a1a1a;
     border: none;
     border-right: 1px solid var(--border-light);
+    border-radius: 4px 0 0 4px;
     color: var(--text);
     font-family: 'DM Mono', monospace;
     font-size: 14px;
@@ -232,7 +264,8 @@
 
   .phone-wrap input[type="tel"] {
     border: none;
-    border-radius: 0;
+    border-left: 1px solid var(--border-light);
+    border-radius: 0 4px 4px 0;
     flex: 1;
     width: auto;
     background: var(--surface);
@@ -826,18 +859,6 @@
       </div>
 
       <div class="field">
-        <label class="field-label">Your selfie</label>
-        <div class="upload-zone" id="zone-selfie">
-          <input type="file" id="selfie" accept="image/*" capture="user" onchange="handleFile(this,'zone-selfie','confirm-selfie','selfie')">
-          <span class="upload-icon">&#128247;</span>
-          <div class="upload-label">Take or upload a photo of yourself</div>
-          <div class="upload-sub">Face clearly visible &mdash; good lighting</div>
-          <div class="file-confirmed" id="confirm-selfie">&#10003; Photo received</div>
-        </div>
-        <div class="err" id="err-selfie">Please upload a selfie</div>
-      </div>
-
-      <div class="field">
         <label class="field-label">Upload your ID</label>
         <div class="upload-zone" id="zone-passport">
           <input type="file" id="passport" accept="image/*,application/pdf" onchange="handleFile(this,'zone-passport','confirm-passport','passport')">
@@ -1115,9 +1136,8 @@
       toggle('err-main-sex', !mSex);
       toggle('err-main-idtype', !mIdType);
       toggle('err-main-idnumber', !mIdNum);
-      toggle('err-selfie', !uploadedFiles.selfie);
       toggle('err-passport', !uploadedFiles.passport);
-      let allOk = !!(mNat && mFirst && mSurname && mDay && mMonth && mYear && mSex && mIdType && mIdNum && uploadedFiles.selfie && uploadedFiles.passport);
+      let allOk = !!(mNat && mFirst && mSurname && mDay && mMonth && mYear && mSex && mIdType && mIdNum && uploadedFiles.passport);
 
       // Additional guests
       const count = parseInt(document.getElementById('guest-count').value) || 1;
@@ -1192,7 +1212,6 @@
     const phoneNumber = document.getElementById('phone-number').value;
     formData.append('phone', phoneCode + ' ' + phoneNumber);
     formData.append('guests', document.getElementById('guest-count').value);
-    if (uploadedFiles.selfie) formData.append('selfie', uploadedFiles.selfie);
     if (uploadedFiles.passport) formData.append('passport', uploadedFiles.passport);
     Object.entries(additionalGuestFiles).forEach(([key, file]) => {
       formData.append(key, file);
@@ -1221,5 +1240,18 @@
     }
   }
 </script>
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
